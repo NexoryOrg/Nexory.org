@@ -1,1 +1,33 @@
+body {
+    margin: 0;
+    font-family: 'Fira Code', monospace;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
 
+.hero {
+    display: column;
+    gap: 3rem;
+}
+
+.info h1 {
+    font-size: 3rem;
+    margin: 0;
+}
+
+.info p {
+    font-size: 1.2rem;
+    margin: 0.5rem;
+}
+
+.code-animation {
+  background: #161b22;
+  padding: 1rem;
+  border-radius: 8px;
+  width: 40ch;
+  min-height: 12rem;
+  overflow: hidden;
+}
