@@ -106,20 +106,14 @@ if (!function_exists('t')) {
 				'nav.github' => 'Github',
 				'nav.contact' => 'Kontakt',
 				'nav.language_switcher' => 'Sprachwechsel',
-				'home.title' => 'nexory.dev',
-				'footer.tagline' => 'Open-Source-Projekte · Python, JavaScript, PHP und mehr',
-				'footer.nav_heading' => 'Navigation',
-				'footer.links_heading' => 'Links',
+				'home.title' => 'Nexory.Org',
 			],
 			'en' => [
 				'nav.home' => 'Home',
 				'nav.github' => 'Github',
 				'nav.contact' => 'Contact',
 				'nav.language_switcher' => 'Language Switcher',
-				'home.title' => 'nexory.dev',
-				'footer.tagline' => 'Open source projects · Python, JavaScript, PHP and more',
-				'footer.nav_heading' => 'Navigation',
-				'footer.links_heading' => 'Links',
+				'home.title' => 'Nexory.Org',
 			]
 		];
 

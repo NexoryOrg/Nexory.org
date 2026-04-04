@@ -13,8 +13,8 @@ require_once __DIR__ . '/../init.php';
         <title data-i18n="home.title"><?= e(t('home.title')) ?></title>
         <script>
         window.__i18nPage = {
-            de: { 'home.title': 'nexory.dev' },
-            en: { 'home.title': 'nexory.dev' }
+            de: { 'home.title': 'Nexory.Org' },
+            en: { 'home.title': 'Nexory.Org \u2013 Open Source Projects' }
         };
         </script>
         <link rel="stylesheet" href="../dashboard/home.css">
