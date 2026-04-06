@@ -10,7 +10,7 @@ require_once __DIR__ . '/../init.php';
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <base href="/">
-        <title>Imprint &mdash; nexory.dev</title>
+        <title>Imprint &mdash; nexory-dev.de</title>
 
         <link rel="stylesheet" href="/imprint/imprint.css">
         <link rel="stylesheet" href="/navebar/navebar.css">

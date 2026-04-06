@@ -2,7 +2,7 @@
     <div class="footer-container">
 
         <div class="footer-brand">
-            <span class="footer-logo">nexory.dev</span>
+            <span class="footer-logo">nexory-dev.de</span>
             <p class="footer-tagline"><?= e(t('footer.tagline')) ?></p>
         </div>
 
@@ -40,6 +40,6 @@
     </div>
 
     <div class="footer-bottom">
-        <p>© <?= date('Y') ?> nexory.dev</p>
+        <p>© <?= date('Y') ?> nexory-dev.de</p>
     </div>
 </footer>
