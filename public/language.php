@@ -106,14 +106,14 @@ if (!function_exists('t')) {
 				'nav.github' => 'Github',
 				'nav.contact' => 'Kontakt',
 				'nav.language_switcher' => 'Sprachwechsel',
-				'home.title' => 'Nexory.Org',
+				'home.title' => 'nexory-dev.de',
 			],
 			'en' => [
 				'nav.home' => 'Home',
 				'nav.github' => 'Github',
 				'nav.contact' => 'Contact',
 				'nav.language_switcher' => 'Language Switcher',
-				'home.title' => 'Nexory.Org',
+				'home.title' => 'nexory-dev.de',
 			]
 		];
 
