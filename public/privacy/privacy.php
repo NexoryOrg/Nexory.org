@@ -10,7 +10,7 @@ require_once __DIR__ . '/../init.php';
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <base href="/">
-        <title>Privacy Policy &mdash; nexory.dev</title>
+        <title>Privacy Policy &mdash; nexory-dev.de</title>
 
         <link rel="stylesheet" href="/imprint/imprint.css">
         <link rel="stylesheet" href="/navebar/navebar.css">
@@ -27,14 +27,14 @@ require_once __DIR__ . '/../init.php';
                     <header class="legal-header">
                         <p class="legal-label">Legal</p>
                         <h1 class="legal-title">Privacy Policy</h1>
-                        <p class="legal-subtitle">How we handle your data on nexory.dev</p>
+                        <p class="legal-subtitle">How we handle your data on nexory-dev.de</p>
                     </header>
 
                     <section class="legal-section">
                         <h2>1. Overview</h2>
                         <p>
                             The protection of your personal data is important to us. This privacy policy explains
-                            what data is collected when you visit nexory.dev, how it is used, and what rights you
+                            what data is collected when you visit nexory-dev.de, how it is used, and what rights you
                             have regarding your data.
                         </p>
                         <p>
@@ -137,7 +137,7 @@ require_once __DIR__ . '/../init.php';
                         </ul>
                         <p>
                             To exercise any of these rights, please contact us at
-                            <a href="mailto:contact@nexory.dev">contact@nexory.dev</a>.
+                            <a href="mailto:contact@nexory-dev.de">contact@nexory-dev.de</a>.
                             You also have the right to lodge a complaint with a supervisory authority.
                             In Austria, this is the
                             <a href="https://www.dsb.gv.at" target="_blank" rel="noopener noreferrer">Datenschutzbehörde (DSB)</a>.
