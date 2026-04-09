@@ -39,8 +39,6 @@ export default function GitHub() {
         setOrg(orgData);
         setRepos(reposData);
 
-        const adminLogins = new Set(adminMembers.map(m => m.login));
-
         return Promise.all(
           reposData.map(repo => Promise.all([
             fetch(`/api/github.php?endpoint=collaborators&repo=${repo.name}`, { headers: HEADERS })
