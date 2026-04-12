@@ -138,6 +138,139 @@
   animation: blink 1s step-end infinite;
 }
 
+/* Home Infos */
+
+.home-infos {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  margin: 4rem auto;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+
+  box-shadow:
+    0 24px 64px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(88, 166, 255, 0.05);
+
+  backdrop-filter: blur(10px);
+}
+
+.home-infos h2 {
+  text-align: center;
+  font-size: 1.8rem;
+  margin: 0;
+}
+
+.home-infos-github,
+.home-infos-contact {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.home-infos-github,
+.home-infos-contact {
+  display: block;
+  text-decoration: None;
+  color: inherit;
+  cursor: pointer;
+  padding: 1.5rem;
+  border-radius: 12px;
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border-subtle);
+
+  transition: all 0.25s ease;
+}
+
+.home-infos-github:hover,
+.home-infos-contact:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-accent);
+  box-shadow: 0 10px 30px rgba(88, 166, 255, 0.15);
+}
+
+.home-infos h3 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+}
+
+.home-infos p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+
+  .hero {
+    height: auto;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+  }
+
+  .hero-content {
+    gap: 1.5rem;
+    padding: 0;
+  }
+
+  .info h1 {
+    font-size: 2rem;
+  }
+
+  .info p {
+    font-size: 0.8rem;
+  }
+
+  .terminal {
+    border-radius: 10px;
+  }
+
+  .terminal-body {
+    padding: 14px 12px;
+  }
+
+  #code-output {
+    font-size: 0.75rem;
+    line-height: 1.5;
+  }
+
+  .home-infos {
+    margin: 2rem 1rem;
+    padding: 1.5rem 1rem;
+    gap: 1.5rem;
+  }
+
+  .home-infos h2 {
+    font-size: 1.4rem;
+  }
+
+  .home-infos > div:not(:first-child) {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .home-infos-github,
+  .home-infos-contact {
+    padding: 1.2rem;
+  }
+
+  .home-infos h3 {
+    font-size: 1.05rem;
+  }
+
+  .home-infos p {
+    font-size: 0.85rem;
+  }
+}
 @keyframes blink {
   50% { opacity: 0; }
 }

@@ -63,6 +63,22 @@ export default function Privacy() {
             parties, and expires when you close your browser. No consent is required for this
             cookie as it is technically essential (Art. 6 (1)(b) GDPR).
           </p>
+
+          <h3>Local Storage (GitHub Stats Cache)</h3>
+          <p>
+            To improve loading performance, this website may temporarily store a cache of public
+            GitHub statistics (for example repository, member, and contribution counts) in your
+            browser's local storage.
+          </p>
+          <p>
+            This cache contains no contact form content, no authentication data, and no special
+            categories of personal data. The cache expires automatically after a limited period
+            (currently up to one hour).
+          </p>
+          <p>
+            Legal basis: Art. 6 (1)(f) GDPR (legitimate interest in efficient and stable page
+            delivery).
+          </p>
         </section>
 
         <section className="legal-section">
@@ -82,19 +98,32 @@ export default function Privacy() {
         <section className="legal-section">
           <h2>5. External Services — GitHub API</h2>
           <p>
-            When you visit the <strong>GitHub</strong> page of this website, your browser connects
-            directly to the GitHub REST API (<code>api.github.com</code>), operated by GitHub, Inc.,
-            a subsidiary of Microsoft Corporation (USA). This connection causes your IP address and
-            browser information (User-Agent) to be transmitted to GitHub's servers in the United States.
+            This website displays publicly available repository information from GitHub. Depending
+            on the page and request type, data is either requested directly from the GitHub REST API
+            (<code>api.github.com</code>) or fetched via our own server-side proxy endpoint.
           </p>
           <p>
-            The legal basis for this transfer is Art. 6 (1)(f) GDPR (legitimate interest in displaying
-            publicly available open-source repository data). GitHub, Inc. participates in the EU–US Data
+            For repository and contribution statistics, only publicly accessible repositories are
+            evaluated.
+          </p>
+          <p>
+            If data is requested directly, your browser connects to GitHub's servers. In this case,
+            technical connection data such as IP address and browser information (User-Agent) may be
+            transmitted to GitHub in the United States.
+          </p>
+          <p>
+            If data is requested via our proxy endpoint, our server retrieves the corresponding GitHub
+            data and returns it to your browser. In this case, GitHub receives the request from our
+            server rather than directly from your browser.
+          </p>
+          <p>
+            The legal basis for this processing is Art. 6 (1)(f) GDPR (legitimate interest in displaying
+            publicly available open-source repository data). GitHub, Inc. participates in the EU-US Data
             Privacy Framework, which provides an adequate level of data protection pursuant to Art. 45 GDPR.
           </p>
           <p>
-            No personal data entered by you is transmitted to GitHub. Only the technical connection data
-            (IP address, browser type) is transferred as part of the HTTP request.
+            No personal data entered by you in contact forms is transmitted to GitHub. Only technical
+            connection data required for HTTP requests is involved.
           </p>
           <p>
             GitHub's privacy policy is available at:{' '}
@@ -106,10 +135,100 @@ export default function Privacy() {
               docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement
             </a>
           </p>
+          <p>
+            Icons used in the GitHub view are rendered from locally bundled SVG components. No
+            additional external icon service is requested in your browser for this purpose.
+          </p>
         </section>
 
         <section className="legal-section">
-          <h2>6. Your Rights</h2>
+          <h2>6. Discord Bot — Nexory</h2>
+          <p>
+            NexoryDev operates a Discord bot named <strong>Nexory</strong>, built with{' '}
+            <code>discord.py</code> and a MySQL database. The bot is publicly available on GitHub at{' '}
+            <a
+              href="https://github.com/NexoryDev/Nexory"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              github.com/NexoryDev/Nexory
+            </a>
+            {' '}and provides task management and calendar features within Discord servers.
+          </p>
+
+          <h3>Data Collected</h3>
+          <p>
+            When you interact with the Nexory bot, the following data is stored in a MySQL database
+            operated by NexoryDev:
+          </p>
+          <ul>
+            <li>
+              <strong>Discord User ID</strong> — to associate personal tasks and preferences with
+              your Discord account.
+            </li>
+            <li>
+              <strong>Discord Guild (Server) ID</strong> — to associate server tasks and
+              configuration with the respective guild.
+            </li>
+            <li>
+              <strong>Task data</strong> — title, description, due date, reminder flag, tag,
+              status, and priority, as entered by you when creating a task.
+            </li>
+            <li>
+              <strong>Configuration data</strong> — your chosen bot mode and, for guilds, the
+              configured reminder channel.
+            </li>
+          </ul>
+          <p>
+            Additionally, the bot uses the following Discord Gateway Intents, which grant it read
+            access to certain data on the Discord platform:
+          </p>
+          <ul>
+            <li><strong>Guilds</strong> — to access server structure and channels.</li>
+            <li><strong>Members</strong> — to read Discord member information within a server.</li>
+            <li><strong>Presences</strong> — to read member presence/status information.</li>
+            <li><strong>Message Content</strong> — to process prefix-based commands sent in text channels.</li>
+          </ul>
+          <p>
+            Events and errors are written to a local log file (<code>logs/discord.log</code>),
+            which may contain Discord user identifiers and interaction metadata. Log files are
+            retained for operational purposes and deleted after a maximum of 30 days.
+          </p>
+
+          <h3>Purpose and Legal Basis</h3>
+          <p>
+            Data is processed solely to provide and operate the bot's features (task management,
+            reminders, calendar). The legal basis is Art. 6 (1)(b) GDPR (performance of a
+            service/contract requested by the user).
+          </p>
+
+          <h3>Data Retention</h3>
+          <p>
+            Task and configuration data is stored until you or a guild administrator explicitly
+            delete it via the bot's commands. No data is shared with third parties.
+          </p>
+
+          <h3>Discord as a Platform</h3>
+          <p>
+            The bot operates within the Discord platform, which is operated by Discord, Inc.
+            (San Francisco, USA) and, for users in the EEA, by Discord Netherlands B.V.
+            By using Discord, you are subject to Discord's own privacy policy, available at:{' '}
+            <a
+              href="https://discord.com/privacy"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              discord.com/privacy
+            </a>
+          </p>
+          <p>
+            Data transfers to Discord's servers in the United States are based on Discord's
+            participation in the EU–US Data Privacy Framework (Art. 45 GDPR).
+          </p>
+        </section>
+
+        <section className="legal-section">
+          <h2>7. Your Rights</h2>
           <p>Under the GDPR you have the following rights regarding your personal data:</p>
           <ul>
             <li><strong>Right of access</strong> (Art. 15 GDPR)</li>
@@ -137,7 +256,7 @@ export default function Privacy() {
         </section>
 
         <footer className="legal-foot">
-          <p>Last updated: 8 April 2026</p>
+          <p>Last updated: 12 April 2026</p>
         </footer>
 
       </div>
