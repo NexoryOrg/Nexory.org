@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import '../styles/Github.css';
+import { SvgStar, SvgFork, SvgIssue, SvgRepo } from '../components/svgs';
 
 const ORG = 'NexoryDev';
 
@@ -30,19 +31,27 @@ export default function GitHub() {
   useEffect(() => {
     Promise.all([
       fetch(`https://api.github.com/orgs/${ORG}`, { headers: HEADERS }).then(res => res.json()),
-      fetch(`https://api.github.com/orgs/${ORG}/repos?per_page=10&sort=stars`, { headers: HEADERS }).then(res => res.json()),
+      fetch(`/api/github.php?endpoint=repos&per_page=100&sort=updated`, { headers: HEADERS }).then(res => res.json()),
       fetch(`/api/github.php?endpoint=members`, { headers: HEADERS }).then(res => res.json()),
     ])
       .then(([orgData, reposData, allMembers]) => {
         if (orgData.message) throw new Error();
+        const safeRepos = Array.isArray(reposData)
+          ? reposData.filter(repo => repo && repo.private !== true)
+          : [];
+        const topRepos = [...safeRepos]
+          .sort((a, b) => (b?.stargazers_count || 0) - (a?.stargazers_count || 0))
+          .slice(0, 10);
+        const safeMembers = Array.isArray(allMembers) ? allMembers : [];
+
         setOrg(orgData);
-        setRepos(reposData);
+        setRepos(topRepos);
 
         return Promise.all(
-          reposData.map(repo => Promise.all([
-            fetch(`/api/github.php?endpoint=collaborators&repo=${repo.name}`, { headers: HEADERS })
+          topRepos.map(repo => Promise.all([
+            fetch(`/api/github.php?endpoint=collaborators&repo=${encodeURIComponent(repo.name)}`, { headers: HEADERS })
               .then(r => r.json()).catch(() => []),
-            fetch(`https://api.github.com/repos/${ORG}/${repo.name}/contributors`, { headers: HEADERS })
+            fetch(`/api/github.php?endpoint=contributors&repo=${encodeURIComponent(repo.name)}`, { headers: HEADERS })
               .then(r => r.json()).catch(() => []),
           ]))
         ).then(results => {
@@ -75,7 +84,7 @@ export default function GitHub() {
             });
           });
 
-          const enriched = allMembers.map(member => ({
+          const enriched = safeMembers.map(member => ({
             ...member,
             role: roleMap[member.login] ?? 'member',
             commits: commitMap[member.login] ?? 0,
@@ -120,7 +129,7 @@ export default function GitHub() {
               <h1 className="gh-org-name">{org.name ?? org.login}</h1>
               {org.description && <p className="gh-org-desc">{org.description}</p>}
               <div className="gh-org-meta">
-                <span>{org.public_repos} Repositories</span>
+                <span>{org.public_repos} {t('github.repos_header')}</span>
                 <span>{org.followers} Followers </span>
               </div>
               <a href={`https://github.com/${ORG}`} target="_blank" rel="noopener noreferrer" className="gh-org-link">
@@ -131,13 +140,13 @@ export default function GitHub() {
         )}
 
         <div className="gh-stats">
-          <span className="gh-stat">⭐ {totalStars} {t('github.stars')}</span>
-          <span className="gh-stat">🍴 {totalForks} {t('github.forks')}</span>
-          {topLanguage && <span className="gh-stat">💻 {topLanguage}</span>}
+          <span className="gh-stat"><SvgStar /> {totalStars} {t('github.stars')}</span>
+          <span className="gh-stat"><SvgFork />  {totalForks} {t('github.forks')}</span>
+          {topLanguage && <span className="gh-stat"><SvgRepo />  {topLanguage}</span>}
         </div>
 
         <section className="gh-repos">
-          <h2 className="gh-section-title">Repositories</h2>
+          <h2 className="gh-section-title">{t('github.repos_header')}</h2>
           <div className="gh-repo-grid">
             {repos.map(repo => (
               <a key={repo.id} href={repo.html_url} target="_blank" rel="noopener noreferrer" className="gh-repo-card">
@@ -169,15 +178,15 @@ export default function GitHub() {
                   )}
                   <div className="gh-stat-item">
                     <span className="gh-stat-label">{t('github.stars')}</span>
-                    <span>⭐ {repo.stargazers_count}</span>
+                    <span><SvgStar size={14} /> {repo.stargazers_count}</span>
                   </div>
                   <div className="gh-stat-item">
                     <span className="gh-stat-label">{t('github.forks')}</span>
-                    <span>🍴 {repo.forks_count}</span>
+                    <span><SvgFork size={14} /> {repo.forks_count}</span>
                   </div>
                   <div className="gh-stat-item">
                     <span className="gh-stat-label">{t('github.issues')}</span>
-                    <span>⚠️ {repo.open_issues_count}</span>
+                    <span><SvgIssue size={14} /> {repo.open_issues_count}</span>
                   </div>
                   <div className="gh-stat-item">
                     <span className="gh-stat-label">{t('github.updated')}</span>

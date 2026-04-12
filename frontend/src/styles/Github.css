@@ -12,7 +12,7 @@
 
 .gh-page::before {
     content: '';
-    position: fixed;
+    position: absolute;
     inset: 0;
     z-index: 0;
     opacity: 0.055;
@@ -224,7 +224,20 @@
     flex-shrink: 0;
 }
 
-/* Github Commits */
+.gh-stat,
+.gh-stat-item > span:last-child {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.gh-stat svg,
+.gh-stat-item svg {
+  flex-shrink: 0;
+  color: var(--color-text-muted);
+}
+
+/* Github Members */
 
 .gh-members {
     margin-top: 3rem;

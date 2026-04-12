@@ -5,6 +5,8 @@ import '../styles/Home.css';
 
 const ORG = 'NexoryDev';
 const HEADERS = { Accept: 'application/vnd.github.v3+json' };
+const CACHE_KEY = 'home_github_stats';
+const CACHE_TTL_MS = 1000 * 60 * 60;
 
 const CODE_MAP = {
   de: `class Nexory:
@@ -33,6 +35,35 @@ if __name__ == "__main__":
     org.join("You")`
 };
 
+function readStatsCache() {
+  try {
+    const raw = localStorage.getItem(CACHE_KEY);
+    if (!raw) return null;
+
+    const cache = JSON.parse(raw);
+    if (!cache.timestamp || !cache?.data) return null;
+
+    const uptodate = Date.now() - cache.timestamp < CACHE_TTL_MS;
+    return uptodate ? cache.data : null;
+  } catch {
+    return null;
+  }
+}
+
+function writeStatsCache(data) {
+  try {
+    localStorage.setItem(
+      CACHE_KEY,
+      JSON.stringify({ 
+        timestamp: Date.now(),
+        data
+      })
+    );
+  } catch {
+
+  }
+  }
+
 export default function Home() {
   const { language, t } = useLanguage();
   const canvasRef = useRef(null);
@@ -45,55 +76,87 @@ export default function Home() {
   });
 
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+  const [fromCache, setFromCache] = useState(false);
 
   useEffect(() => {
-    setLoading(true);
+    const controller = new AbortController();
+    const signal = controller.signal;
 
-    Promise.all([
-      fetch(`https://api.github.com/orgs/${ORG}/repos?per_page=100`, { headers: HEADERS }).then(r => r.json()),
-      fetch(`https://api.github.com/orgs/${ORG}/members?per_page=100`, { headers: HEADERS }).then(r => r.json())
-    ])
-      .then(([reposData, membersData]) => {
-        const memberSet = new Set();
+    async function loadGithubStats() {
+      setLoading(true);
+      setError(false);
+      setFromCache(false);
 
-        membersData
-          .filter(m => m?.type === "User" && m?.login && !m.login.includes("[bot]"))
-          .forEach(m => memberSet.add(m.login));
-
-        setStats({
-          members: memberSet.size,
-          repos: reposData.length,
-          commits: 0
-        });
-
+      const cached = readStatsCache();
+      if (cached) {
+        setStats(cached);
+        setFromCache(true);
         setLoading(false);
+      }
 
-        return reposData;
-      })
-      .then(async reposData => {
-        let totalCommits = 0;
+      try {
+        const [reposData, membersData] = await Promise.all([
+          fetch("/api/github.php?endpoint=repos", { signal })
+          .then(r => {
+            if (!r.ok) throw new Error("Failed to fetch repos");
+            return r.json();
+          }),
+          fetch ("/api/github.php?endpoint=members", { signal })
+          .then(r => {
+            if (!r.ok) throw new Error("Failed to fetch members");
+            return r.json();
+          })
+          ]);
 
-        for (const repo of reposData) {
-          try {
-            const res = await fetch(`https://api.github.com/repos/${ORG}/${repo.name}/contributors?per_page=100`, {
-              headers: HEADERS
-            });
-            const contribs = await res.json();
+          const safeRepos = Array.isArray(reposData)
+            ? reposData.filter(repo => repo && repo.private !== true)
+            : [];
+          const safeMembers = Array.isArray(membersData) ? membersData : [];
+          const memberSet = new Set();
+          safeMembers
+            .filter(m => m.type === "User" && m?.login && !m.login.includes("[bot]"))
+            .forEach(m => memberSet.add(m.login));
 
-            contribs
-              .filter(c => c?.type === "User" && c?.login && !c.login.includes("[bot]"))
-              .forEach(c => {
-                if (c?.contributions) totalCommits += c.contributions;
-              });
-          } catch {}
+          const contributorPromises = safeRepos.map(repo =>
+            fetch(
+            "/api/github.php?endpoint=contributors&repo=" + encodeURIComponent(repo.name),
+            { signal }
+          )
+          .then(r => (r.ok ? r.json() : []))
+          .catch(() => [])
+        );
+
+        const contributorsByRepo = await Promise.all(contributorPromises);
+
+        const totalCommits = contributorsByRepo
+        .flat()
+        .filter(c => c?.type === "User" && c?.login && !c.login.includes("[bot]"))
+        .reduce((sum, c) => sum + (Number(c?.contributions) || 0), 0);
+
+        const nextStats = {
+          members: memberSet.size,
+          repos: safeRepos.length,
+          commits: totalCommits
         }
 
-        setStats(prev => ({
-          ...prev,
-          commits: totalCommits
-        }));
-      })
-      .catch(() => setLoading(false));
+        setStats(nextStats);
+        writeStatsCache(nextStats);
+        setFromCache(false);
+        setError(false);
+      } catch (error) {
+        if (error?.name !== "AbortError") {
+          const hasCache = !!readStatsCache();
+          if (!hasCache) setError(true);
+          else setFromCache(true);
+          }
+        } finally {
+        setLoading(false);
+        }
+    }
+
+    loadGithubStats();
+    return () => controller.abort();
   }, []);
 
   useEffect(() => {
@@ -110,6 +173,11 @@ export default function Home() {
     function resize() {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
+      particles = particles.map(p => ({
+        ...p,
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+      }))
     }
 
     resize();
@@ -215,8 +283,13 @@ export default function Home() {
 
             <p>
               {loading
-                ? t('home.stats_loading')
-                : `${stats.members} ${t('home.stats_members')} · ${stats.repos} ${t('home.stats_repos')} · ${stats.commits} ${t('home.stats_commits')}`}
+              ? t('home.stats_loading')
+              : error
+              ? t('home.stats_error')
+              : fromCache
+              ? `${stats.members} ${t('home.stats_members')} · ${stats.repos} ${t('home.stats_repos')} · ${stats.commits} ${t('home.stats_commits')} (${t('home.stats_cached')})`
+              : `${stats.members} ${t('home.stats_members')} · ${stats.repos} ${t('home.stats_repos')} · ${stats.commits} ${t('home.stats_commits')}`
+            }
             </p>
           </div>
 
