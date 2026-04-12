@@ -57,9 +57,9 @@ function getTopLanguage(repos) {
   return Object.entries(languageCount).sort((a, b) => b[1] - a[1])[0]?.[0] || null;
 }
 
-function relativeTime(dateStr) {
+function relativeTime(dateStr, locale = 'en') {
   const diffInSeconds = (Date.now() - new Date(dateStr)) / 1000;
-  const formatter = new Intl.RelativeTimeFormat('en', { numeric: 'auto' });
+  const formatter = new Intl.RelativeTimeFormat(locale, { numeric: 'auto' });
 
   if (diffInSeconds < 3600) {
     return formatter.format(-Math.floor(diffInSeconds / 60), 'minute');
@@ -77,7 +77,7 @@ function relativeTime(dateStr) {
 }
 
 export default function GitHub({ initialData = null, initialError = false }) {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const initialDashboard = initialData ? toSafeDashboard(initialData) : EMPTY_DASHBOARD;
 
   const [org, setOrg] = useState(initialDashboard.org);
@@ -190,7 +190,7 @@ export default function GitHub({ initialData = null, initialError = false }) {
                   </div>
                   <div className="gh-stat-item">
                     <span className="gh-stat-label">{t('github.updated')}</span>
-                    <span>{relativeTime(repo.updated_at)}</span>
+                    <span>{relativeTime(repo.updated_at, language)}</span>
                   </div>
                 </div>
 
