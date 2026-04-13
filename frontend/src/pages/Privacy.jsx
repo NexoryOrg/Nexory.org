@@ -57,8 +57,8 @@ export default function Privacy() {
 
           <h3>Session Cookies</h3>
           <p>
-            We use a technically necessary session cookie (for example a PHP session identifier)
-            for server-side language handling via the <code>/api/language.php</code> endpoint.
+            We use a technically necessary session cookie for server-side language handling
+            via the <code>/api/language</code> endpoint (Python backend).
             This cookie is required for the language session and is not used for advertising.
             No consent banner is required for technically necessary cookies.
           </p>
@@ -96,7 +96,7 @@ export default function Privacy() {
           <p>
             This website displays publicly available repository information from GitHub. Depending
             on the page and request type, data is fetched via our own server-side proxy endpoint
-            <code>/api/github.php</code>.
+            <code>/api/github</code>.
           </p>
           <p>
             For repository and contribution statistics, only publicly accessible repositories are
