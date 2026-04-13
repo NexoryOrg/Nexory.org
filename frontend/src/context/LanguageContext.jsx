@@ -23,7 +23,7 @@ function sendLanguageToBackend(language) {
     return Promise.resolve();
   }
 
-  return fetch('/api/language.php', {
+  return fetch('/api/language', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ language })
