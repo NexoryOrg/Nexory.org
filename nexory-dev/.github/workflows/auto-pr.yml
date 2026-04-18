@@ -1,0 +1,22 @@
+name: Auto Pull Request
+
+on:
+  push:
+    branches:
+      - testing-area
+
+jobs:
+  create-pull-request:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: 'Automatischer PR: Änderungen von testing-area'
+          title: 'Automatischer PR: Änderungen von testing-area'
+          body: 'Dieser Pull Request wurde automatisch erstellt.'
+          base: main
+          branch: testing-area
